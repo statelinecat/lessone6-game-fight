@@ -1,5 +1,5 @@
 
-
+import random
 from abc import ABC, abstractmethod
 
 
@@ -17,7 +17,7 @@ class Sword(Weapon):
     def __init__(self, name="Мечом"):
         self.name = name
     def attack_power_bonus(self):
-        return 10
+        return 5
 
     def after_attack_penalty(self):
         return 2
@@ -26,7 +26,7 @@ class Axe(Weapon):
     def __init__(self, name="Топором"):
         self.name = name
     def attack_power_bonus(self):
-        return 15
+        return 10
 
     def after_attack_penalty(self):
         return 4
@@ -35,7 +35,7 @@ class Hammer(Weapon):
     def __init__(self, name="Молотом"):
         self.name = name
     def attack_power_bonus(self):
-        return 20
+        return 15
 
     def after_attack_penalty(self):
         return 6
@@ -72,7 +72,7 @@ class Hero:
     def attack(self, other):
         if self.weapon:
             other.health -= self.attack_power + self.weapon.attack_power_bonus()
-            print(f"{self.name} атакует {other.name} с помощью {self.weapon.name}, "
+            print(f"{self.name} атакует {other.name}  {self.weapon.name}, "
                   f"оставшееся здоровье {other.health}")
             self.attack_power -= self.weapon.after_attack_penalty()
         else:
@@ -81,18 +81,17 @@ class Hero:
     def is_alive(self):
         return self.health > 0
 
-import random
 
 class Game:
-    def __init__(self, player_name="Player"):
+    def __init__(self, player_name="Игрок"):
         self.player = Hero(player_name)
-        self.computer = Hero("Computer")
+        self.computer = Hero("Компьютер")
 
     def start(self):
         # self.player.choose_weapon(input("Выберите оружие: 0 - без оружия, 1 - меч, 2 - топор, 3 - молот: "))
         while self.player.is_alive() and self.computer.is_alive():
             self.player.choose_weapon(input("Выберите оружие: 0 - без оружия, 1 - меч, 2 - топор, 3 - молот: "))
-            self.computer.choose_weapon(randint(0, 9))
+            self.computer.choose_weapon(str(random.randint(0, 3)))
             action = input("Введите '1' для атаки или '0' для выхода: ").strip().lower()
             if action == '1':
                 self.player.attack(self.computer)
